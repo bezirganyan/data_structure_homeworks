@@ -48,6 +48,7 @@ class BinSearchTree
 		Node<T>* findParent(T, Node<T>*);
                 int getHeight(Node<T>*);
 		void insert(T, Node<T>*&);
+		void clean(Node<T>*);
 
 	public:
 		//Public constructor and destructor

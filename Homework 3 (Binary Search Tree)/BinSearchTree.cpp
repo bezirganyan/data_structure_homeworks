@@ -55,12 +55,6 @@ Node<T>* BinSearchTree<T>::getRoot() {
 }
 
 	template <class T>
-BinSearchTree<T>::BinSearchTree()
-{
-	m_root = new Node<T>;
-}
-
-	template <class T>
 void BinSearchTree<T>::preOrder(Node<T> *root)
 {
 	std::cout << root->data << " ";
@@ -127,10 +121,10 @@ int BinSearchTree<T>::getHeight(Node<T>* root) {
 template <class T>
 Node<T>* BinSearchTree<T>::find(T d, Node<T>* root)
 {
-	if (root->data == d) {
-		return root;
-	} if (root == NULL || root->data == 0) {
+	if (root == NULL || root->data == 0) {
 		return nullptr;
+        } else if (root->data == d) {
+		return root;
 	} else if (root->data < d) {
 		return find(d, root->right);
 	} else if (root->data > d) {
@@ -188,7 +182,12 @@ bool BinSearchTree<T>::isLeaf(T d)
 template <class T>
 void BinSearchTree<T>::remove(T d)
 {
-        remove(find(d));
+        Node<T>* n = find(d);
+        if (nullptr == n) {
+                throw "Error: Value doesn't exist";
+        } else {
+                remove(find(d));
+        }
 }
 
 //Remove by Address
@@ -220,4 +219,29 @@ void BinSearchTree<T>::remove(Node<T>* n)
 			remove(min);
 		}
 	}
+}
+template <class T>
+void BinSearchTree<T>::clean(Node<T>* root) {
+	if (root->left != NULL) {
+		postOrder(root->left);
+	}
+	if (root->right != NULL) {
+		postOrder(root->right);
+
+	}
+        delete root;
+        m_root = new Node<T>;
+}
+
+template <class T>
+BinSearchTree<T>::BinSearchTree()
+{
+	m_root = new Node<T>;
+}
+
+template <class T>
+BinSearchTree<T>::~BinSearchTree()
+{
+	clean(m_root);
+        delete m_root;
 }
