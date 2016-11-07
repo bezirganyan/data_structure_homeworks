@@ -168,9 +168,14 @@ void list<T>::print()
 }
 
 template <class T>
-T list<T>::operator[](int i)
+T list<T>::operator[](int p)
 {
-        return get(i);
+        if (p > m_size || p < 0) {
+                throw "Invalid position";
+        } else {
+                return getNode(p)->data;
+        }
+        //return get(i);
 }
 
 template <class T>
